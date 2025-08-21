@@ -1,4 +1,4 @@
-package gui; /*Package containing the code.*/
+package pages; /*Package containing the code.*/
 
 /*Import API needed for creating the interface.*/
 import javax.swing.*;
@@ -8,11 +8,11 @@ public class Base_Frame extends JFrame { /*Class for creating the base window fr
     private JPanel base = new JPanel(); /*Panel created.*/
     private CardLayout layout = new CardLayout(); /*Layout manager selected.*/
 
-    public Base_Frame(String title, int width, int height) { /*Constructor method.*/
+    public Base_Frame(String title) { /*Constructor method.*/
         setTitle(title); /*Title of the frame.*/
         setDefaultCloseOperation(EXIT_ON_CLOSE); /*Default closing method.*/
-        setSize(width, height); /*Initialize size.*/
-        setMinimumSize(new Dimension(width, height));
+        setSize(1200, 763); /*Initialize size.*/
+        setMinimumSize(new Dimension(1200, 763));
         add(base); /*Adds the base to the JFrame.*/
         base.setLayout(layout); /*Link the layout to the panel.*/
     }
