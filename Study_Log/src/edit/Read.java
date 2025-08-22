@@ -7,6 +7,8 @@ import java.util.ArrayList;
 public class Read { /*Class for reading files.*/
     /*Method for reading all the data.*/
     public String[][] all(String file_path) {
+        File_Data check = new File_Data();
+        check.Check(file_path);
         ArrayList<String> temp = new ArrayList<String>();
         String line;
 
@@ -22,6 +24,9 @@ public class Read { /*Class for reading files.*/
         }
         
         String[] temp_array = temp.toArray(new String[0]);
+        if (temp_array.length == 0) {
+            return null;
+        }
         int element_count = temp_array[0].split(";").length;
         String[][] data = new String[temp_array.length][element_count];
         for (int row = 0; row < temp_array.length; row++) {
@@ -30,7 +35,6 @@ public class Read { /*Class for reading files.*/
                 data[row][column] = elements[column];
             }
         }
-
         return data;
     }
 

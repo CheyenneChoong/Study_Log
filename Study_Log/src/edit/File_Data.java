@@ -3,16 +3,20 @@ package edit; /*Package containing the class.*/
 /*Import API.*/
 import java.io.*;
 
-public class Update { /*Class for updating the file.*/
-    private File_Data check = new File_Data();
+public class File_Data {
+    public void Check(String file_path) {
+        File path = new File(file_path);
+        if (path.exists()) {
+            return;
+        } else {
+            Create_File(path);
+        }
+    }
 
-    public void add(String path, String data) {
-        check.Check(path);
+    public void Create_File(File path) {
         try {
-            FileWriter file = new FileWriter(path, true);
+            FileWriter file = new FileWriter(path);
             BufferedWriter buffer = new BufferedWriter(file);
-            buffer.write(data);
-            buffer.newLine();
             buffer.close();
         } catch (IOException e) {
             System.out.println("Error has occurred : " + e.getStackTrace());
