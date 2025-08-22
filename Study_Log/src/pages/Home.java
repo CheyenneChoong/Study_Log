@@ -3,6 +3,7 @@ package pages; /*Package containing the home page. */
 /*Import API and module needed.*/
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class Home extends JPanel implements Page {
     private SpringLayout layout = new SpringLayout();
@@ -12,12 +13,14 @@ public class Home extends JPanel implements Page {
     private JButton add_button;
     private JTable table;
     private JScrollPane scroll;
+    private Base_Frame base_link;
 
-    public Home() {
+    public Home(Base_Frame base) { /*Constructor method.*/
         /*Set up of the page size, background colour and layout manager.*/
         setSize(1200, 763);
         setBackground(Color.decode("#A4DFDC"));
         setLayout(layout);
+        base_link = base;
         
         /*Title label.*/
         title = new JLabel("STUDY LOG");
@@ -30,23 +33,28 @@ public class Home extends JPanel implements Page {
         /*Search bar input.*/
         search_input = new JTextField();
         search_input.setBackground(Color.decode("#E3D3FD"));
-        search_input.setFont(new Font("Arial", Font.PLAIN, 15));
+        search_input.setFont(new Font("Arial", Font.PLAIN, 18));
         add(search_input);
-        layout.putConstraint(SpringLayout.NORTH, search_input, 50, SpringLayout.NORTH, title);
+        layout.putConstraint(SpringLayout.NORTH, search_input, 60, SpringLayout.NORTH, title);
 
         /*Search button.*/
         search_button = new JButton("Search");
         search_button.setBackground(Color.decode("#9762F4"));
         search_button.setForeground(Color.WHITE);
         add(search_button);
-        layout.putConstraint(SpringLayout.NORTH, search_button, 50, SpringLayout.NORTH, title);
+        layout.putConstraint(SpringLayout.NORTH, search_button, 60, SpringLayout.NORTH, title);
 
         /*Add button.*/
         add_button = new JButton("+");
         add_button.setBackground(Color.decode("#9762F4"));
         add_button.setForeground(Color.WHITE);
+        add_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                base_link.Display_Page("New Module");
+            }
+        });
         add(add_button);
-        layout.putConstraint(SpringLayout.NORTH, add_button, 50, SpringLayout.NORTH, title);
+        layout.putConstraint(SpringLayout.NORTH, add_button, 60, SpringLayout.NORTH, title);
 
         /*Table containing the list of modules.*/
         table = new JTable();
@@ -57,6 +65,7 @@ public class Home extends JPanel implements Page {
         Layout();
     }
 
+    /*Method for adjusting the layout.*/
     public void Layout() {
         Component anchor = Home.this;
         int width = Home.this.getWidth();
@@ -74,7 +83,10 @@ public class Home extends JPanel implements Page {
         repaint();
     }
 
-    public Display_Data() {
-        System.out.println("Work in Progress.");
+    /*Method for displaying all the data.*/
+    public void Display_Data(String mode) {
+        switch (mode) {
+            case "All" : System.out.println("Work in progress"); break;
+        }
     }
 }

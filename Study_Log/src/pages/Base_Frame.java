@@ -36,6 +36,8 @@ public class Base_Frame extends JFrame { /*Class for creating the base window fr
     /*Method for displaying the selected pages.*/
     public void Display_Page(String name) {
         layout.show(base, name);
+        Page current = Current_Page();
+        current.Layout();
     }
 
     private Page Current_Page() {
