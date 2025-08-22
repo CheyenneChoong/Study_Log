@@ -12,7 +12,7 @@ public class Main { /*Main class run.*/
         Page home_page = new Home(base);
         base.Add_Page(home_page, "Home");
 
-        Page new_module_page = new New_Module(base);
+        Page new_module_page = new New_Module(base, (Home)home_page);
         base.Add_Page(new_module_page, "New Module");
 
         base.pack();

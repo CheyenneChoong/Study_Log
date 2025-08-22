@@ -2,11 +2,17 @@ package pages; /*Package containing the home page. */
 
 /*Import API and module needed.*/
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+
 import java.awt.*;
 import java.awt.event.*;
+import edit.Read;
 
 public class Home extends JPanel implements Page {
     private SpringLayout layout = new SpringLayout();
+    private Read file = new Read();
+
     private JLabel title;
     private JTextField search_input;
     private JButton search_button;
@@ -58,11 +64,15 @@ public class Home extends JPanel implements Page {
 
         /*Table containing the list of modules.*/
         table = new JTable();
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(Color.decode("#FAD3FD"));
+        header.setFont(new Font("Tahoma", Font.BOLD, 12));
         scroll = new JScrollPane(table);
         add(scroll);
         layout.putConstraint(SpringLayout.NORTH, scroll, 40, SpringLayout.NORTH, search_input);
 
         Layout();
+        Display_Data("All");
     }
 
     /*Method for adjusting the layout.*/
@@ -85,8 +95,26 @@ public class Home extends JPanel implements Page {
 
     /*Method for displaying all the data.*/
     public void Display_Data(String mode) {
+        String[][] data = null;
+        String[] column = null;
+        int[] widths = null;
+
         switch (mode) {
-            case "All" : System.out.println("Work in progress"); break;
+            case "All" :
+                data = file.all("Study_Log/src/data/module.txt");
+                column = new String[] {"Module Code", "Module Name"};
+                widths = new int[] {204, 500};
+        }
+
+        DefaultTableModel model = new DefaultTableModel(data, column) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        table.setModel(model);
+        for (int index = 0; index < widths.length; index++) {
+            table.getColumnModel().getColumn(index).setMinWidth(widths[index]);
         }
     }
 }

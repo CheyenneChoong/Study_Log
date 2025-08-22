@@ -4,9 +4,13 @@ package pages; /*Package containing the class.*/
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import edit.*;
 
 public class New_Module extends JPanel implements Page {
     private SpringLayout layout = new SpringLayout();
+    private Base_Frame base_link;
+    private Home home_link;
+
     private JLabel title;
     private JLabel module_label;
     private JLabel code_label;
@@ -14,14 +18,15 @@ public class New_Module extends JPanel implements Page {
     private JTextField code_input;
     private JButton create_button;
     private JButton back_button;
-    private Base_Frame base_link;
+    private Update file = new Update();
 
-    public New_Module(Base_Frame base) { /*Constructor method.*/
+    public New_Module(Base_Frame base, Home home_page) { /*Constructor method.*/
         /*Set up of the page size, background colour and layout manager.*/
         setSize(1200, 763);
         setBackground(Color.decode("#A4DFDC"));
         setLayout(layout);
         base_link = base;
+        home_link = home_page;
 
         /*Title label.*/
         title = new JLabel("NEW MODULE");
@@ -33,7 +38,7 @@ public class New_Module extends JPanel implements Page {
 
         /*Module Name Label.*/
         module_label = new JLabel("Module Name");
-        module_label.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        module_label.setFont(new Font("Tahoma", Font.BOLD, 15));
         add(module_label);
         layout.putConstraint(SpringLayout.NORTH, module_label, 70, SpringLayout.NORTH, title);
 
@@ -46,7 +51,7 @@ public class New_Module extends JPanel implements Page {
 
         /*Module Code Label.*/
         code_label = new JLabel("Module Code");
-        code_label.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        code_label.setFont(new Font("Tahoma", Font.BOLD, 15));
         add(code_label);
         layout.putConstraint(SpringLayout.NORTH, code_label, 138, SpringLayout.NORTH, title);
 
@@ -60,6 +65,11 @@ public class New_Module extends JPanel implements Page {
         /*Add button.*/
         create_button = new JButton("CREATE");
         create_button.setBackground(Color.decode("#62F473"));
+        create_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Button_Function("Add");
+            }
+        });
         add(create_button);
         layout.putConstraint(SpringLayout.NORTH, create_button, 90, SpringLayout.NORTH, code_label);
 
@@ -68,7 +78,7 @@ public class New_Module extends JPanel implements Page {
         back_button.setBackground(Color.decode("#E96F6F"));
         back_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                base_link.Display_Page("Home");
+                Button_Function("Back");
             }
         });
         add(back_button);
@@ -93,5 +103,26 @@ public class New_Module extends JPanel implements Page {
         layout.putConstraint(SpringLayout.EAST, back_button, -(int)((398.0 / 1200.0) * width), SpringLayout.EAST, anchor);
         revalidate();
         repaint();
+    }
+
+    private void Button_Function(String action) {
+        switch (action) {
+            case "Add" :
+                String module_name = module_input.getText().strip();
+                String module_code = code_input.getText().strip();
+                if (module_name.isBlank() || module_code.isBlank()) {
+                    return;
+                }
+                file.add("Study_Log/src/data/module.txt", String.format("%s;%s", module_code, module_name));
+                module_input.setText("");
+                code_input.setText("");
+                home_link.Display_Data("All");
+                base_link.Display_Page("Home");
+                break;
+            case "Back" : 
+                module_input.setText("");
+                code_input.setText("");
+                base_link.Display_Page("Home");
+        }
     }
 }
