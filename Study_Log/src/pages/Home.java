@@ -2,9 +2,7 @@ package pages; /*Package containing the home page. */
 
 /*Import API and module needed.*/
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import edit.Read;
@@ -64,6 +62,16 @@ public class Home extends JPanel implements Page {
 
         /*Table containing the list of modules.*/
         table = new JTable();
+        table.getSelectionModel().addListSelectionListener(e -> {
+            if(!e.getValueIsAdjusting()) {
+                int row = table.getSelectedRow();
+                if (row != -1) {
+                    base.Display_Page("Module Panel");
+                    Module_Panel current = (Module_Panel) base.Current_Page();
+                    current.Display_Module(String.valueOf(table.getValueAt(row, 0)));
+                }
+            }
+        });
         JTableHeader header = table.getTableHeader();
         header.setBackground(Color.decode("#FAD3FD"));
         header.setFont(new Font("Tahoma", Font.BOLD, 12));

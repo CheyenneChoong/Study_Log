@@ -20,7 +20,7 @@ public class Base_Frame extends JFrame { /*Class for creating the base window fr
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e){
-                Page panel = Current_Page();
+                Page panel = (Page)Current_Page();
                 if (panel != null) {
                     panel.Layout();
                 }
@@ -36,16 +36,16 @@ public class Base_Frame extends JFrame { /*Class for creating the base window fr
     /*Method for displaying the selected pages.*/
     public void Display_Page(String name) {
         layout.show(base, name);
-        Page current = Current_Page();
+        Page current = (Page)Current_Page();
         current.Layout();
     }
 
-    private Page Current_Page() {
+    public Component Current_Page() {
         for (Component component : base.getComponents()) {
             if (component.isVisible()) {
-                return (Page)component;
+                return component;
             }
         }
         return null;
-    } 
+    }
 }

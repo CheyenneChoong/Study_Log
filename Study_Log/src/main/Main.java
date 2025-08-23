@@ -15,6 +15,9 @@ public class Main { /*Main class run.*/
         Page new_module_page = new New_Module(base, (Home)home_page);
         base.Add_Page(new_module_page, "New Module");
 
+        Page module_panel_page = new Module_Panel(base, (Home)home_page);
+        base.Add_Page(module_panel_page, "Module Panel");
+
         base.pack();
 
         base.Display_Page("Home");
