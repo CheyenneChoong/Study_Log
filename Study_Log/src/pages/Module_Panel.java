@@ -9,22 +9,22 @@ import java.awt.event.*;
 import edit.Read;
 
 public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*/
-    SpringLayout layout = new SpringLayout();
-    Base_Frame base_link;
-    Home home_link;
-    Read file = new Read();
-    String module_id;
+    private SpringLayout layout = new SpringLayout();
+    private Base_Frame base_link;
+    private Home home_link;
+    private Read file = new Read();
+    private String module_id;
 
-    JLabel module_name;
-    JButton edit_button;
-    JButton delete_button;
-    JButton back_button;
-    JComboBox<String> filter_input;
-    JTextField search_input;
-    JButton search_button;
-    JButton add_button;
-    JTable table;
-    JScrollPane scroll;
+    private JLabel module_name;
+    private JButton edit_button;
+    private JButton delete_button;
+    private JButton back_button;
+    private JComboBox<String> filter_input;
+    private JTextField search_input;
+    private JButton search_button;
+    private JButton add_button;
+    private JTable table;
+    private JScrollPane scroll;
 
     public Module_Panel(Base_Frame base, Home home_page) {
         /*Set up page size, background colour and layout manager.*/
@@ -89,6 +89,11 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
         add_button = new JButton("+");
         add_button.setBackground(Color.decode("#9762F4"));
         add_button.setForeground(Color.WHITE);
+        add_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Button_Function("New");
+            }
+        });
         add(add_button);
         layout.putConstraint(SpringLayout.NORTH, add_button, 50, SpringLayout.NORTH, module_name);
 
@@ -170,6 +175,10 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
         Display_Data("All");
     }
 
+    public String Module_Code() {
+        return module_id;
+    }
+
     private void Button_Function(String action) {
         switch (action) {
             case "Edit" : System.out.println("Edit."); break;
@@ -177,6 +186,9 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
             case "Back" :
                 base_link.Display_Page("Home");
                 home_link.Display_Data("All");
+                break;
+            case "New" : 
+                base_link.Display_Page("New Page");
                 break;
         }
     }

@@ -18,8 +18,11 @@ public class Main { /*Main class run.*/
         Page module_panel_page = new Module_Panel(base, (Home)home_page);
         base.Add_Page(module_panel_page, "Module Panel");
 
+        Page new_page = new New_Page(base, (Module_Panel)module_panel_page);
+        base.Add_Page(new_page, "New Page");
+
         base.pack();
 
-        base.Display_Page("Home");
+        base.Display_Page("Home Page");
     }
 }

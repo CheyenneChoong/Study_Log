@@ -1,0 +1,117 @@
+package pages; /*Package containing the class.*/
+
+/*Import API.*/
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class New_Page extends JPanel implements Page {
+    private SpringLayout layout = new SpringLayout();
+    private Base_Frame base_link;
+    private Module_Panel module_link;
+
+    private JLabel title_label;
+    private JLabel date_label;
+    private JLabel type_label;
+    private JTextField title_input;
+    private JTextField date_input;
+    private JComboBox<String> type_input;
+    private JButton create_button;
+    private JButton back_button; 
+
+    public New_Page(Base_Frame base, Module_Panel module) {
+        setSize(1200, 763);
+        setBackground(Color.decode("#A4DFDC"));
+        setLayout(layout);
+        base_link = base;
+        module_link = module;
+
+        /*Title.*/
+        JLabel page_title = new JLabel("NEW PAGE");
+        page_title.setForeground(Color.decode("#45005A"));
+        page_title.setFont(new Font("Tahoma", Font.BOLD, 30));
+        add(page_title);
+        layout.putConstraint(SpringLayout.NORTH, page_title, 10, SpringLayout.NORTH, this);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, page_title, 0, SpringLayout.HORIZONTAL_CENTER, this);
+
+        /*Page Name / Title  Input Label.*/
+        title_label = new JLabel("Title");
+        title_label.setFont(new Font("Tahoma", Font.BOLD, 15));
+        add(title_label);
+        layout.putConstraint(SpringLayout.NORTH, title_label, 70, SpringLayout.NORTH, page_title);
+
+        /*Page Name / Title input.*/
+        title_input = new JTextField();
+        title_input.setFont(new Font("Arial", Font.PLAIN, 15));
+        title_input.setBackground(Color.decode("#FFE8FA"));
+        add(title_input);
+        layout.putConstraint(SpringLayout.NORTH, title_input, 100, SpringLayout.NORTH, page_title);
+
+        /*Date Input Label*/
+        date_label = new JLabel("Date");
+        date_label.setFont(new Font("Tahoma", Font.BOLD, 15));
+        add(date_label);
+        layout.putConstraint(SpringLayout.NORTH, date_label, 140, SpringLayout.NORTH, page_title);
+
+        /*Date input*/
+        date_input = new JTextField();
+        date_input.setFont(new Font("Arial", Font.BOLD, 15));
+        date_input.setBackground(Color.decode("#FFE8FA"));
+        add(date_input);
+        layout.putConstraint(SpringLayout.NORTH, date_input, 170, SpringLayout.NORTH, page_title);
+
+        /*Type input label.*/
+        type_label = new JLabel("Type");
+        type_label.setFont(new Font("Tahoma", Font.BOLD, 15));
+        add(type_label);
+        layout.putConstraint(SpringLayout.NORTH, type_label, 207, SpringLayout.NORTH, page_title);
+
+        /*Type input.*/
+        type_input = new JComboBox<>(new String[] {"Lecture", "Tutorial / Lab", "Assignment"});
+        type_input.setBackground(Color.decode("#FFE8FA"));
+        type_input.setFont(new Font("Arial", Font.PLAIN, 15));
+        add(type_input);
+        layout.putConstraint(SpringLayout.NORTH, type_input, 236, SpringLayout.NORTH, page_title);
+
+        /*Create button.*/
+        create_button = new JButton("CREATE");
+        create_button.setBackground(Color.decode("#62F473"));
+        add(create_button);
+        layout.putConstraint(SpringLayout.NORTH, create_button, 280, SpringLayout.NORTH, page_title);
+
+        /*Back button.*/
+        back_button = new JButton("BACK");
+        back_button.setBackground(Color.decode("#E96F6F"));
+        back_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                base_link.Display_Page("Module Panel");
+            }
+        });
+        add(back_button);
+        layout.putConstraint(SpringLayout.NORTH, back_button, 280, SpringLayout.NORTH, page_title);
+
+        Layout();
+    }
+
+    public void Layout() {
+        Component anchor = New_Page.this;
+        int width = New_Page.this.getWidth();
+
+        layout.putConstraint(SpringLayout.WEST, title_label, (int)((371.0 / 1200.0) * width), SpringLayout.WEST, anchor);
+        layout.putConstraint(SpringLayout.WEST, title_input, (int)((371.0 / 1200.0) * width), SpringLayout.WEST, anchor);
+        layout.putConstraint(SpringLayout.EAST, title_input, -(int)((371.0 / 1200.0) * width), SpringLayout.EAST, anchor);
+        layout.putConstraint(SpringLayout.WEST, date_label, (int)((371.0 / 1200.0) * width), SpringLayout.WEST, anchor);
+        layout.putConstraint(SpringLayout.WEST, date_input, (int)((371.0 / 1200.0) * width), SpringLayout.WEST, anchor);
+        layout.putConstraint(SpringLayout.EAST, date_input, -(int)((371.0 / 1200.0) * width), SpringLayout.EAST, anchor);
+        layout.putConstraint(SpringLayout.WEST, type_label, (int)((371.0 / 1200.0) * width), SpringLayout.WEST, anchor);
+        layout.putConstraint(SpringLayout.WEST, type_input, (int)((371.0 / 1200.0) * width), SpringLayout.WEST, anchor);
+        layout.putConstraint(SpringLayout.EAST, type_input, -(int)((371.0 / 1200.0) * width), SpringLayout.EAST, anchor);
+        layout.putConstraint(SpringLayout.WEST, create_button, (int)((396.0 / 1200.0) * width), SpringLayout.WEST, anchor);
+        layout.putConstraint(SpringLayout.EAST, create_button, -(int)((625.0 / 1200.0) * width), SpringLayout.EAST, anchor);
+        layout.putConstraint(SpringLayout.WEST, back_button, (int)((623.0 / 1200.0) * width), SpringLayout.WEST, anchor);
+        layout.putConstraint(SpringLayout.EAST, back_button, -(int)((398.0 / 1200.0) * width), SpringLayout.EAST, anchor);
+
+        revalidate();
+        repaint();
+    }
+}
