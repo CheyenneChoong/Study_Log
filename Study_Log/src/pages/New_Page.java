@@ -10,6 +10,11 @@ public class New_Page extends JPanel implements Page {
     private SpringLayout layout = new SpringLayout();
     private Base_Frame base_link;
     private Module_Panel module_link;
+    private View_Page page_link;
+    
+    private int mode = 1;
+    private Read read_file = new Read();
+    private Update update_file = new Update();
 
     private JLabel title_label;
     private JLabel date_label;
@@ -80,6 +85,8 @@ public class New_Page extends JPanel implements Page {
                 Create_Page();
                 base_link.Display_Page("Module Panel");
                 module_link.Display_Data("All");
+                title_input.setText("");
+                date_input.setText("");
             }
         });
         add(create_button);
@@ -90,7 +97,15 @@ public class New_Page extends JPanel implements Page {
         back_button.setBackground(Color.decode("#E96F6F"));
         back_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                base_link.Display_Page("Module Panel");
+                if (mode == 1) {
+                    base_link.Display_Page("Module Panel");
+                } else if (mode == 2) {
+                    create_button.setText("CREATE");
+                    base_link.Display_Page("View Page");
+                    page_link.Display_Note(page_link.Page_ID());
+                }
+                title_input.setText("");
+                date_input.setText("");
             }
         });
         add(back_button);
@@ -105,6 +120,8 @@ public class New_Page extends JPanel implements Page {
             base_link = (Base_Frame) context;
         } else if (context instanceof Module_Panel) {
             module_link = (Module_Panel) context;
+        } else if (context instanceof View_Page) {
+            page_link = (View_Page) context;
         }
     }
 
@@ -133,8 +150,6 @@ public class New_Page extends JPanel implements Page {
 
     /*Method for creating a page.*/ 
     private void Create_Page() {
-        Read read_file = new Read();
-        Update update_file = new Update();
         File_Data file = new File_Data();
 
         String page_title = title_input.getText().strip();
@@ -150,5 +165,18 @@ public class New_Page extends JPanel implements Page {
         String data = String.join(";", note_id, module_code, date, type, page_title);
         update_file.add("Study_Log/src/data/notes.txt", data);
         update_file.update("Study_log/src/data/module.txt", module_code, 2, String.valueOf((Integer.parseInt(module_data[2]) + 1)));
+    }
+
+    public void Edit_Mode(String id) {
+        String[] page = read_file.one(id, "Study_Log/src/data/notes.txt");
+        title_input.setText(page[4]);
+        switch (page[3]) {
+            case "Lecture" : type_input.setSelectedIndex(0); break;
+            case "Tutorial / Lab" : type_input.setSelectedIndex(1); break;
+            case "Assignment" : type_input.setSelectedIndex(2); break;
+        }
+        date_input.setText(page[2]);
+        create_button.setText("UPDATE");
+        mode = 2;
     }
 }

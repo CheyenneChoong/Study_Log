@@ -23,10 +23,13 @@ public class Main { /*Main class run.*/
         module_panel_page.Page_Connection(base);
         module_panel_page.Page_Connection((Home) home_page);
         module_panel_page.Page_Connection((New_Module) new_module_page);
+        module_panel_page.Page_Connection((View_Page) view_page);
         new_page.Page_Connection(base);
         new_page.Page_Connection((Module_Panel) module_panel_page);
+        new_page.Page_Connection((View_Page) view_page);
         view_page.Page_Connection(base);
         view_page.Page_Connection((Module_Panel)module_panel_page);
+        view_page.Page_Connection((New_Page) new_page);
 
         base.Add_Page(home_page, "Home");
         base.Add_Page(module_panel_page, "Module Panel");
@@ -36,6 +39,6 @@ public class Main { /*Main class run.*/
 
         base.pack();
 
-        base.Display_Page("View Page");
+        base.Display_Page("Home");
     }
 }

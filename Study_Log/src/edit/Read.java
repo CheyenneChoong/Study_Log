@@ -94,4 +94,24 @@ public class Read { /*Class for reading files.*/
         }
         return filtered_data;
     }
+
+    /*Method for reading the information as a whole text.*/
+    public String read(String path) {
+        check.Check(path);
+        String line;
+        String text = "";
+        try {
+            FileReader read_file = new FileReader(path);
+            BufferedReader read_buffer = new BufferedReader(read_file);
+            while ((line = read_buffer.readLine()) != null) {
+                text = text + line + "\n";
+            }
+            read_buffer.close();
+            return text;
+
+        } catch (IOException e) {
+            System.out.println("Error has occurred : " + e.getStackTrace());
+        }
+        return null;
+    }
 }

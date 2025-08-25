@@ -13,6 +13,7 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
     private Base_Frame base_link;
     private Home home_link;
     private New_Module new_module_link;
+    private View_Page page_link;
     private Read file = new Read();
     private String module_id;
 
@@ -101,6 +102,16 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
 
         /*Table displaying all the module notes.*/
         table = new JTable();
+        table.getSelectionModel().addListSelectionListener(e -> {
+            if(!e.getValueIsAdjusting()) {
+                int row = table.getSelectedRow();
+                if (row != -1) {
+                    base_link.Display_Page("View Page");
+                    String[][] pages = file.multiple(module_id, 1, "Study_Log/src/data/notes.txt");
+                    page_link.Display_Note(pages[row][0]);
+                }
+            }
+        });
         scroll = new JScrollPane(table);
         JTableHeader header = table.getTableHeader();
         header.setBackground(Color.decode("#FAD3FD"));
@@ -119,6 +130,8 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
             home_link = (Home) context;
         } else if (context instanceof New_Module) {
             new_module_link = (New_Module) context;
+        } else if (context instanceof View_Page) {
+            page_link = (View_Page) context;
         }
     }
 
@@ -128,7 +141,6 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
         int height = Module_Panel.this.getHeight();
 
         layout.putConstraint(SpringLayout.WEST, module_name, (int)((51.0 / 1200.0) * width), SpringLayout.WEST, anchor);
-        layout.putConstraint(SpringLayout.EAST, module_name, -(int)((354.0 / 1200.0) * width), SpringLayout.EAST, anchor);
         layout.putConstraint(SpringLayout.WEST, edit_button, (int)((860.0 / 1200.0) * width), SpringLayout.WEST, anchor);
         layout.putConstraint(SpringLayout.EAST, edit_button, -(int)((231.0 / 1200.0) * width), SpringLayout.EAST, anchor);
         layout.putConstraint(SpringLayout.WEST, delete_button, (int)((982.0 / 1200.0) * width), SpringLayout.WEST, anchor);
@@ -149,9 +161,7 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
         revalidate();
         repaint();
     }
-
     
-
     /*Method for button functions.*/
     private void Button_Function(String action) {
         switch (action) {
