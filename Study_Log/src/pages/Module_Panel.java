@@ -12,6 +12,7 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
     private SpringLayout layout = new SpringLayout();
     private Base_Frame base_link;
     private Home home_link;
+    private New_Module new_module_link;
     private Read file = new Read();
     private String module_id;
 
@@ -26,15 +27,11 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
     private JTable table;
     private JScrollPane scroll;
 
-    public Module_Panel(Base_Frame base, Home home_page) {
+    public Module_Panel() {
         /*Set up page size, background colour and layout manager.*/
         setSize(1200, 763);
         setBackground(Color.decode("#A4DFDC"));
         setLayout(layout);
-
-        /*Connection to previous pages.*/
-        base_link = base;
-        home_link = home_page;
         
         /*Title label.*/
         module_name = new JLabel("Module Name");
@@ -45,6 +42,11 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
         /*Edit button.*/
         edit_button = new JButton("Edit");
         edit_button.setBackground(Color.decode("#CF62F4"));
+        edit_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Button_Function("Edit");
+            }
+        });
         add(edit_button);
         layout.putConstraint(SpringLayout.NORTH, edit_button, 15, SpringLayout.NORTH, this);
 
@@ -109,12 +111,24 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
         Layout();
     }
 
+    /*Method for creating link between pages.*/
+    public void Page_Connection(Object context) {
+        if (context instanceof Base_Frame) {
+            base_link = (Base_Frame) context;
+        } else if (context instanceof Home) {
+            home_link = (Home) context;
+        } else if (context instanceof New_Module) {
+            new_module_link = (New_Module) context;
+        }
+    }
+
     public void Layout() {
         Component anchor = Module_Panel.this;
         int width = Module_Panel.this.getWidth();
         int height = Module_Panel.this.getHeight();
 
         layout.putConstraint(SpringLayout.WEST, module_name, (int)((51.0 / 1200.0) * width), SpringLayout.WEST, anchor);
+        layout.putConstraint(SpringLayout.EAST, module_name, -(int)((354.0 / 1200.0) * width), SpringLayout.EAST, anchor);
         layout.putConstraint(SpringLayout.WEST, edit_button, (int)((860.0 / 1200.0) * width), SpringLayout.WEST, anchor);
         layout.putConstraint(SpringLayout.EAST, edit_button, -(int)((231.0 / 1200.0) * width), SpringLayout.EAST, anchor);
         layout.putConstraint(SpringLayout.WEST, delete_button, (int)((982.0 / 1200.0) * width), SpringLayout.WEST, anchor);
@@ -134,6 +148,26 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
         layout.putConstraint(SpringLayout.SOUTH, scroll, -(int)((42.0 / 763.0) * height), SpringLayout.SOUTH, anchor);
         revalidate();
         repaint();
+    }
+
+    
+
+    /*Method for button functions.*/
+    private void Button_Function(String action) {
+        switch (action) {
+            case "Edit" :
+                base_link.Display_Page("New Module");
+                new_module_link.Edit_Mode(module_id, module_name.getText());
+                break;
+            case "Delete" : System.out.println("Delete."); break;
+            case "Back" :
+                base_link.Display_Page("Home");
+                home_link.Display_Data("All");
+                break;
+            case "New" : 
+                base_link.Display_Page("New Page");
+                break;
+        }
     }
 
     /*Method for displaying all the data.*/
@@ -177,19 +211,5 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
 
     public String Module_Code() {
         return module_id;
-    }
-
-    private void Button_Function(String action) {
-        switch (action) {
-            case "Edit" : System.out.println("Edit."); break;
-            case "Delete" : System.out.println("Delete."); break;
-            case "Back" :
-                base_link.Display_Page("Home");
-                home_link.Display_Data("All");
-                break;
-            case "New" : 
-                base_link.Display_Page("New Page");
-                break;
-        }
     }
 }

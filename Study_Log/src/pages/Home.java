@@ -19,12 +19,11 @@ public class Home extends JPanel implements Page {
     private JScrollPane scroll;
     private Base_Frame base_link;
 
-    public Home(Base_Frame base) { /*Constructor method.*/
+    public Home() { /*Constructor method.*/
         /*Set up of the page size, background colour and layout manager.*/
         setSize(1200, 763);
         setBackground(Color.decode("#A4DFDC"));
         setLayout(layout);
-        base_link = base;
         
         /*Title label.*/
         title = new JLabel("STUDY LOG");
@@ -66,8 +65,8 @@ public class Home extends JPanel implements Page {
             if(!e.getValueIsAdjusting()) {
                 int row = table.getSelectedRow();
                 if (row != -1) {
-                    base.Display_Page("Module Panel");
-                    Module_Panel current = (Module_Panel) base.Current_Page();
+                    base_link.Display_Page("Module Panel");
+                    Module_Panel current = (Module_Panel) base_link.Current_Page();
                     current.Display_Module(String.valueOf(table.getValueAt(row, 0)));
                 }
             }
@@ -81,6 +80,11 @@ public class Home extends JPanel implements Page {
 
         Layout();
         Display_Data("All");
+    }
+
+    /*Method for creating connections to other pages.*/
+    public void Page_Connection(Object context) {
+        base_link = (Base_Frame) context;
     }
 
     /*Method for adjusting the layout.*/

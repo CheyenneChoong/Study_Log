@@ -10,6 +10,8 @@ public class New_Module extends JPanel implements Page {
     private SpringLayout layout = new SpringLayout();
     private Base_Frame base_link;
     private Home home_link;
+    private Module_Panel module_link;
+    private int mode = 1;
 
     private JLabel title;
     private JLabel module_label;
@@ -20,13 +22,11 @@ public class New_Module extends JPanel implements Page {
     private JButton back_button;
     private Update file = new Update();
 
-    public New_Module(Base_Frame base, Home home_page) { /*Constructor method.*/
+    public New_Module() { /*Constructor method.*/
         /*Set up of the page size, background colour and layout manager.*/
         setSize(1200, 763);
         setBackground(Color.decode("#A4DFDC"));
         setLayout(layout);
-        base_link = base;
-        home_link = home_page;
 
         /*Title label.*/
         title = new JLabel("NEW MODULE");
@@ -67,7 +67,11 @@ public class New_Module extends JPanel implements Page {
         create_button.setBackground(Color.decode("#62F473"));
         create_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Button_Function("Add");
+                if (mode == 1) {
+                    Button_Function("Add");
+                } else if (mode == 2) {
+                    Button_Function("Edit");
+                }
             }
         });
         add(create_button);
@@ -85,6 +89,17 @@ public class New_Module extends JPanel implements Page {
         layout.putConstraint(SpringLayout.NORTH, back_button, 90, SpringLayout.NORTH, code_label);
 
         Layout();
+    }
+
+    /*Method for creating links between pages.*/
+    public void Page_Connection(Object context) {
+        if (context instanceof Base_Frame) {
+            base_link = (Base_Frame) context;
+        } else if (context instanceof Home) {
+            home_link = (Home) context;
+        } else if (context instanceof Module_Panel) {
+            module_link = (Module_Panel) context;
+        }
     }
 
     /*Method for adjusting the layout.*/
@@ -105,15 +120,19 @@ public class New_Module extends JPanel implements Page {
         repaint();
     }
 
+    /*Method for button functions.*/
     private void Button_Function(String action) {
+        String module_name;
+        String module_code;
+        
         switch (action) {
             case "Add" :
-                String module_name = module_input.getText().strip();
-                String module_code = code_input.getText().strip();
+                module_name = module_input.getText().strip();
+                module_code = code_input.getText().strip();
                 if (module_name.isBlank() || module_code.isBlank()) {
                     return;
                 }
-                file.add("Study_Log/src/data/module.txt", String.format("%s;%s", module_code, module_name));
+                file.add("Study_Log/src/data/module.txt", String.format("%s;%s;0", module_code, module_name));
                 module_input.setText("");
                 code_input.setText("");
                 home_link.Display_Data("All");
@@ -123,6 +142,32 @@ public class New_Module extends JPanel implements Page {
                 module_input.setText("");
                 code_input.setText("");
                 base_link.Display_Page("Home");
+                break;
+            case "Edit" : 
+                module_name = module_input.getText().strip();
+                module_code = code_input.getText().strip();
+                if (module_name.isBlank()) {
+                    return;
+                }
+                file.update("Study_Log/src/data/module.txt", module_code, 1, module_name);
+                module_input.setText("");
+                code_input.setText("");
+                code_input.setEnabled(true);
+                create_button.setText("Create");
+                mode = 1;
+                base_link.Display_Page("Module Panel");
+                module_link.Display_Module(module_code);
+                break;
+
         }
+    }
+
+    /*Method for set up page when in edit mode.*/
+    public void Edit_Mode(String id, String module) {
+        module_input.setText(module);
+        code_input.setText(id);
+        code_input.setEnabled(false);
+        create_button.setText("Update");
+        mode = 2;
     }
 }

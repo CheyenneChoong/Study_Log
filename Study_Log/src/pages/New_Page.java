@@ -4,6 +4,7 @@ package pages; /*Package containing the class.*/
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import edit.*;
 
 public class New_Page extends JPanel implements Page {
     private SpringLayout layout = new SpringLayout();
@@ -19,12 +20,10 @@ public class New_Page extends JPanel implements Page {
     private JButton create_button;
     private JButton back_button; 
 
-    public New_Page(Base_Frame base, Module_Panel module) {
+    public New_Page() {
         setSize(1200, 763);
         setBackground(Color.decode("#A4DFDC"));
         setLayout(layout);
-        base_link = base;
-        module_link = module;
 
         /*Title.*/
         JLabel page_title = new JLabel("NEW PAGE");
@@ -76,6 +75,13 @@ public class New_Page extends JPanel implements Page {
         /*Create button.*/
         create_button = new JButton("CREATE");
         create_button.setBackground(Color.decode("#62F473"));
+        create_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Create_Page();
+                base_link.Display_Page("Module Panel");
+                module_link.Display_Data("All");
+            }
+        });
         add(create_button);
         layout.putConstraint(SpringLayout.NORTH, create_button, 280, SpringLayout.NORTH, page_title);
 
@@ -93,6 +99,16 @@ public class New_Page extends JPanel implements Page {
         Layout();
     }
 
+    /*Method for creating connections between pages.*/
+    public void Page_Connection(Object context) {
+        if (context instanceof Base_Frame) {
+            base_link = (Base_Frame) context;
+        } else if (context instanceof Module_Panel) {
+            module_link = (Module_Panel) context;
+        }
+    }
+
+    /*Method for updating the layout setup.*/
     public void Layout() {
         Component anchor = New_Page.this;
         int width = New_Page.this.getWidth();
@@ -113,5 +129,26 @@ public class New_Page extends JPanel implements Page {
 
         revalidate();
         repaint();
+    }
+
+    /*Method for creating a page.*/ 
+    private void Create_Page() {
+        Read read_file = new Read();
+        Update update_file = new Update();
+        File_Data file = new File_Data();
+
+        String page_title = title_input.getText().strip();
+        String date = date_input.getText().strip();
+        String type = type_input.getSelectedItem().toString();
+        if (page_title.isBlank() || date.isBlank()) {
+            return;
+        }
+        String module_code = module_link.Module_Code();
+        String[] module_data = read_file.one(module_code, "Study_Log/src/data/module.txt");
+        String note_id = String.format("%s-%d", module_code, (Integer.parseInt(module_data[2]) + 1));
+        file.Check(String.format("Study_Log/src/data/%s.txt", note_id));
+        String data = String.join(";", note_id, module_code, date, type, page_title);
+        update_file.add("Study_Log/src/data/notes.txt", data);
+        update_file.update("Study_log/src/data/module.txt", module_code, 2, String.valueOf((Integer.parseInt(module_data[2]) + 1)));
     }
 }
