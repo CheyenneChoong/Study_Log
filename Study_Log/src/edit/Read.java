@@ -81,6 +81,9 @@ public class Read { /*Class for reading files.*/
             }
         }
         String[] temp_filter_array = temp_filter.toArray(new String[0]);
+        if (temp_filter_array.length == 0) {
+            return null;
+        }
         int element_count = temp_filter_array[0].split(";").length;
         String[][] filtered_data = new String[temp_filter_array.length][element_count];
         for (int row = 0; row < temp_filter_array.length; row++) {
