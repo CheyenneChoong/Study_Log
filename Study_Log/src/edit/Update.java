@@ -38,4 +38,16 @@ public class Update { /*Class for updating the file.*/
             System.out.println("Error has occurred : " + e.getStackTrace());
         }
     }
+
+    public void note(String path, String text) {
+        check.Check(path);
+        try {
+            FileWriter file = new FileWriter(path);
+            BufferedWriter buffer = new BufferedWriter(file);
+            buffer.write(text);
+            buffer.close();
+        } catch (IOException e) {
+            System.out.println("Error has occurred : " + e.getStackTrace());
+        }
+    }
 }

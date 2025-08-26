@@ -59,7 +59,7 @@ public class New_Page extends JPanel implements Page {
 
         /*Date input*/
         date_input = new JTextField();
-        date_input.setFont(new Font("Arial", Font.BOLD, 15));
+        date_input.setFont(new Font("Arial", Font.PLAIN, 15));
         date_input.setBackground(Color.decode("#FFE8FA"));
         add(date_input);
         layout.putConstraint(SpringLayout.NORTH, date_input, 170, SpringLayout.NORTH, page_title);
@@ -82,11 +82,27 @@ public class New_Page extends JPanel implements Page {
         create_button.setBackground(Color.decode("#62F473"));
         create_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Create_Page();
-                base_link.Display_Page("Module Panel");
-                module_link.Display_Data("All");
-                title_input.setText("");
-                date_input.setText("");
+                if (mode == 1) {
+                    Create_Page();
+                    base_link.Display_Page("Module Panel");
+                    module_link.Display_Data("All");
+                    title_input.setText("");
+                    date_input.setText("");
+                } else if (mode == 2) {
+                    String page_title = title_input.getText().strip();
+                    String date = date_input.getText().strip();
+                    String type = type_input.getSelectedItem().toString();
+                    if (page_title.isBlank() || date.isBlank()) {
+                        return;
+                    }
+                    update_file.update("Study_Log/src/data/notes.txt", page_link.Page_ID(), 4, page_title);
+                    update_file.update("Study_Log/src/data/notes.txt", page_link.Page_ID(), 3, type);
+                    update_file.update("Study_Log/src/data/notes.txt", page_link.Page_ID(), 2, date);
+                    base_link.Display_Page("View Page");
+                    page_link.Display_Note(page_link.Page_ID());
+                    title_input.setText("");
+                    date_input.setText("");
+                }
             }
         });
         add(create_button);
@@ -104,6 +120,7 @@ public class New_Page extends JPanel implements Page {
                     base_link.Display_Page("View Page");
                     page_link.Display_Note(page_link.Page_ID());
                 }
+                mode = 1;
                 title_input.setText("");
                 date_input.setText("");
             }
@@ -151,7 +168,6 @@ public class New_Page extends JPanel implements Page {
     /*Method for creating a page.*/ 
     private void Create_Page() {
         File_Data file = new File_Data();
-
         String page_title = title_input.getText().strip();
         String date = date_input.getText().strip();
         String type = type_input.getSelectedItem().toString();

@@ -1,1 +1,3 @@
-AAPP013-4-2-OOP-1;AAPP013-4-2-OOP;12 May;Lecture;Test
+AAPP013-4-2-OOP-1;AAPP013-4-2-OOP;25 August;Tutorial / Lab;Test
+AAPP013-4-2-OOP-2;AAPP013-4-2-OOP;26 August;Tutorial / Lab;Test 2
+AAQS039-4-1-ADM-1;AAQS039-4-1-ADM;21 August;Assignment;Test

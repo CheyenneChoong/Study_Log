@@ -11,6 +11,7 @@ public class View_Page extends JPanel implements Page {
     private Base_Frame base_link;
     private Module_Panel module_link;
     private New_Page new_page_link;
+    private Update file = new Update();
 
     private String note_id;
 
@@ -43,7 +44,7 @@ public class View_Page extends JPanel implements Page {
 
         /*Edit button.*/
         edit_button = new JButton("Edit");
-        edit_button.setBackground(Color.decode("#9762F4"));
+        edit_button.setBackground(Color.decode("#CF62F4"));
         edit_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 base_link.Display_Page("New Page");
@@ -55,7 +56,7 @@ public class View_Page extends JPanel implements Page {
 
         /*Delete button.*/
         delete_button = new JButton("Delete");
-        delete_button.setBackground(Color.decode("#9762F4"));
+        delete_button.setBackground(Color.decode("#CF62F4"));
         add(delete_button);
         layout.putConstraint(SpringLayout.NORTH, delete_button, 15, SpringLayout.NORTH, this);
 
@@ -75,6 +76,15 @@ public class View_Page extends JPanel implements Page {
         note_button = new JButton("Edit Note");
         note_button.setBackground(Color.decode("#9762F4"));
         note_button.setForeground(Color.WHITE);
+        note_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (note_area.isEditable()) {
+                    note_area.setEditable(false);
+                } else {
+                    note_area.setEditable(true);
+                }
+            }
+        });
         add(note_button);
         layout.putConstraint(SpringLayout.NORTH, note_button, 50, SpringLayout.NORTH, page_title);
 
@@ -84,6 +94,11 @@ public class View_Page extends JPanel implements Page {
         note_area.setLineWrap(true);
         note_area.setWrapStyleWord(true);
         note_area.setEditable(false);
+        note_area.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                file.note(String.format("Study_Log/src/data/%s.txt", note_id), note_area.getText());
+            }
+        });
         scroll = new JScrollPane(note_area);
         add(scroll);
         layout.putConstraint(SpringLayout.NORTH, scroll, 50, SpringLayout.NORTH, type_date);
