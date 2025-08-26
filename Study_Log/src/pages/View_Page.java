@@ -57,6 +57,15 @@ public class View_Page extends JPanel implements Page {
         /*Delete button.*/
         delete_button = new JButton("Delete");
         delete_button.setBackground(Color.decode("#CF62F4"));
+        delete_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                file.delete("Study_Log/src/data/notes.txt", note_id);
+                File_Data file_data = new File_Data();
+                file_data.Delete_File(String.format("Study_Log/src/data/%s.txt", note_id));
+                base_link.Display_Page("Module Panel");
+                module_link.Display_Data("All");
+            }
+        });
         add(delete_button);
         layout.putConstraint(SpringLayout.NORTH, delete_button, 15, SpringLayout.NORTH, this);
 
