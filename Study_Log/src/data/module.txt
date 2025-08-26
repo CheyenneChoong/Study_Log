@@ -1,2 +1,0 @@
-AAPP013-4-2-OOP;Object Oriented Programming;2
-AAQS039-4-1-ADM;Algebra and Discrete Mathematics;1

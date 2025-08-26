@@ -5,8 +5,9 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
-import edit.Read;
+import edit.*;
 
 public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*/
     private SpringLayout layout = new SpringLayout();
@@ -16,14 +17,13 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
     private View_Page page_link;
     private Read file = new Read();
     private String module_id;
+    private String[][] all_data;
 
     private JLabel module_name;
     private JButton edit_button;
     private JButton delete_button;
     private JButton back_button;
     private JComboBox<String> filter_input;
-    private JTextField search_input;
-    private JButton search_button;
     private JButton add_button;
     private JTable table;
     private JScrollPane scroll;
@@ -54,6 +54,11 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
         /*Delete button.*/
         delete_button = new JButton("Delete");
         delete_button.setBackground(Color.decode("#CF62F4"));
+        delete_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Button_Function("Delete");
+            }
+        });
         add(delete_button);
         layout.putConstraint(SpringLayout.NORTH, delete_button, 15, SpringLayout.NORTH, this);
 
@@ -71,22 +76,13 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
         /*Drop down filter option.*/
         filter_input = new JComboBox<>(new String[] {"Lecture", "Tutorial / Lab", "Assignment"});
         filter_input.setBackground(Color.decode("#E3D3FD"));
+        filter_input.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Display_Data("Filter");
+            }
+        });
         add(filter_input);
         layout.putConstraint(SpringLayout.NORTH, filter_input, 50, SpringLayout.NORTH, module_name);
-
-        /*Search bar.*/
-        search_input = new JTextField();
-        search_input.setBackground(Color.decode("#E3D3FD"));
-        search_input.setFont(new Font("Arial", Font.PLAIN, 18));
-        add(search_input);
-        layout.putConstraint(SpringLayout.NORTH, search_input, 50, SpringLayout.NORTH, module_name);
-
-        /*Search button*/
-        search_button = new JButton("Search");
-        search_button.setBackground(Color.decode("#9762F4"));
-        search_button.setForeground(Color.WHITE);
-        add(search_button);
-        layout.putConstraint(SpringLayout.NORTH, search_button, 50, SpringLayout.NORTH, module_name);
 
         /*Add Button*/
         add_button = new JButton("+");
@@ -107,8 +103,7 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
                 int row = table.getSelectedRow();
                 if (row != -1) {
                     base_link.Display_Page("View Page");
-                    String[][] pages = file.multiple(module_id, 1, "Study_Log/src/data/notes.txt");
-                    page_link.Display_Note(pages[row][0]);
+                    page_link.Display_Note(all_data[row][0]);
                 }
             }
         });
@@ -149,10 +144,6 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
         layout.putConstraint(SpringLayout.EAST, back_button, -(int)((51.0 / 1200.0) * width), SpringLayout.EAST, anchor);
         layout.putConstraint(SpringLayout.WEST, filter_input, (int)((51.0 / 1200.0) * width), SpringLayout.WEST, anchor);
         layout.putConstraint(SpringLayout.EAST, filter_input, -(int)((960.0 / 1200.0) * width), SpringLayout.EAST, anchor);
-        layout.putConstraint(SpringLayout.WEST, search_input, (int)((254.0 / 1200.0) * width), SpringLayout.WEST, anchor);
-        layout.putConstraint(SpringLayout.EAST, search_input, -(int)((506.0 / 1200.0) * width), SpringLayout.EAST, anchor);
-        layout.putConstraint(SpringLayout.WEST, search_button, (int)((714.0 / 1200.0) * width), SpringLayout.WEST, anchor);
-        layout.putConstraint(SpringLayout.EAST, search_button, -(int)((322.0 / 1200.0) * width), SpringLayout.EAST, anchor);
         layout.putConstraint(SpringLayout.WEST, add_button, (int)((1104.0 / 1140.0) * (width - 60)), SpringLayout.WEST, anchor);
         layout.putConstraint(SpringLayout.EAST, add_button, -(int)((51.0 / 1140.0) * (width - 60)), SpringLayout.EAST, anchor);
         layout.putConstraint(SpringLayout.WEST, scroll, (int)((51.0 / 1200.0) * width), SpringLayout.WEST, anchor);
@@ -169,7 +160,20 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
                 base_link.Display_Page("New Module");
                 new_module_link.Edit_Mode(module_id, module_name.getText());
                 break;
-            case "Delete" : System.out.println("Delete."); break;
+            case "Delete" : 
+                Update update = new Update();
+                File_Data file_data = new File_Data();
+                update.delete("Study_Log/src/data/module.txt", module_id);
+                String[][] pages = file.multiple(module_id, 1, "Study_Log/src/data/notes.txt");
+                if (pages != null) {
+                    for (String[] row : pages) {
+                        file_data.Delete_File(String.format("Study_Log/src/data/%s.txt", row[0]));
+                        update.delete("Study_Log/src/data/notes.txt", row[0]);
+                    }
+                }
+                base_link.Display_Page("Home");
+                home_link.Display_Data("All");
+                break;
             case "Back" :
                 base_link.Display_Page("Home");
                 home_link.Display_Data("All");
@@ -183,12 +187,12 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
     /*Method for displaying all the data.*/
     public void Display_Data(String mode) {
         String[][] data = null;
-        String[] column = null;
-        int[] widths = null;
+        String[] column = {"Date", "Title"};
+        int[] widths = {204, 500};
 
         switch (mode) {
             case "All" :
-                String[][] all_data = file.multiple(module_id, 1, "Study_Log/src/data/notes.txt");
+                all_data = file.multiple(module_id, 1, "Study_Log/src/data/notes.txt");
                 if (all_data != null) {
                     data = new String[all_data.length][2];
                     for (int row = 0; row < all_data.length; row++) {
@@ -196,8 +200,26 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
                         data[row][1] = all_data[row][4];
                     }
                 }
-                column = new String[] {"Date", "Title"};
-                widths = new int[] {204, 500};
+                break;
+            case "Filter" : 
+                all_data = file.multiple(module_id, 1, "Study_Log/src/data/notes.txt");
+                ArrayList<String> temp_list = new ArrayList<>();
+                if (all_data != null) {
+                    for (String[] row : all_data) {
+                        if (row[3].equals(filter_input.getSelectedItem().toString())) {
+                            temp_list.add(String.join(";", row));
+                        }
+                    }
+                    String[] temp_array = temp_list.toArray(new String[0]);
+                    data = new String[temp_array.length][2];
+                    all_data = new String[temp_array.length][5];
+                    for (int row = 0; row < temp_array.length; row++) {
+                        all_data[row] = temp_array[row].split(";");
+                        data[row][0] = temp_array[row].split(";")[2];
+                        data[row][1] = temp_array[row].split(";")[4];
+                    }
+                }
+                break;
         }
 
         DefaultTableModel model = new DefaultTableModel(data, column) {

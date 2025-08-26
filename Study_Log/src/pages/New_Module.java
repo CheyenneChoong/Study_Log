@@ -139,9 +139,17 @@ public class New_Module extends JPanel implements Page {
                 base_link.Display_Page("Home");
                 break;
             case "Back" : 
+                if (mode == 1) {
+                    base_link.Display_Page("Home");
+                } else if (mode == 2) {
+                    base_link.Display_Page("Module Panel");
+                    module_code = code_input.getText().strip();
+                    module_link.Display_Module(module_code);
+                }
                 module_input.setText("");
                 code_input.setText("");
-                base_link.Display_Page("Home");
+                create_button.setText("CREATE");
+                mode = 1;
                 break;
             case "Edit" : 
                 module_name = module_input.getText().strip();
@@ -153,7 +161,7 @@ public class New_Module extends JPanel implements Page {
                 module_input.setText("");
                 code_input.setText("");
                 code_input.setEnabled(true);
-                create_button.setText("Create");
+                create_button.setText("CREATE");
                 mode = 1;
                 base_link.Display_Page("Module Panel");
                 module_link.Display_Module(module_code);
@@ -167,7 +175,7 @@ public class New_Module extends JPanel implements Page {
         module_input.setText(module);
         code_input.setText(id);
         code_input.setEnabled(false);
-        create_button.setText("Update");
+        create_button.setText("UPDATE");
         mode = 2;
     }
 }

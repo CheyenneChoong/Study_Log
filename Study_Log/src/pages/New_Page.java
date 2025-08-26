@@ -84,10 +84,6 @@ public class New_Page extends JPanel implements Page {
             public void actionPerformed(ActionEvent e) {
                 if (mode == 1) {
                     Create_Page();
-                    base_link.Display_Page("Module Panel");
-                    module_link.Display_Data("All");
-                    title_input.setText("");
-                    date_input.setText("");
                 } else if (mode == 2) {
                     String page_title = title_input.getText().strip();
                     String date = date_input.getText().strip();
@@ -181,6 +177,10 @@ public class New_Page extends JPanel implements Page {
         String data = String.join(";", note_id, module_code, date, type, page_title);
         update_file.add("Study_Log/src/data/notes.txt", data);
         update_file.update("Study_log/src/data/module.txt", module_code, 2, String.valueOf((Integer.parseInt(module_data[2]) + 1)));
+        base_link.Display_Page("Module Panel");
+        module_link.Display_Data("All");
+        title_input.setText("");
+        date_input.setText("");
     }
 
     public void Edit_Mode(String id) {

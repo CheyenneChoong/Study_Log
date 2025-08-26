@@ -12,8 +12,6 @@ public class Home extends JPanel implements Page {
     private Read file = new Read();
 
     private JLabel title;
-    private JTextField search_input;
-    private JButton search_button;
     private JButton add_button;
     private JTable table;
     private JScrollPane scroll;
@@ -32,20 +30,6 @@ public class Home extends JPanel implements Page {
         add(title);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, title, 0, SpringLayout.HORIZONTAL_CENTER, this);
         layout.putConstraint(SpringLayout.NORTH, title, 10, SpringLayout.NORTH, this);
-
-        /*Search bar input.*/
-        search_input = new JTextField();
-        search_input.setBackground(Color.decode("#E3D3FD"));
-        search_input.setFont(new Font("Arial", Font.PLAIN, 18));
-        add(search_input);
-        layout.putConstraint(SpringLayout.NORTH, search_input, 60, SpringLayout.NORTH, title);
-
-        /*Search button.*/
-        search_button = new JButton("Search");
-        search_button.setBackground(Color.decode("#9762F4"));
-        search_button.setForeground(Color.WHITE);
-        add(search_button);
-        layout.putConstraint(SpringLayout.NORTH, search_button, 60, SpringLayout.NORTH, title);
 
         /*Add button.*/
         add_button = new JButton("+");
@@ -76,7 +60,7 @@ public class Home extends JPanel implements Page {
         header.setFont(new Font("Tahoma", Font.BOLD, 12));
         scroll = new JScrollPane(table);
         add(scroll);
-        layout.putConstraint(SpringLayout.NORTH, scroll, 40, SpringLayout.NORTH, search_input);
+        layout.putConstraint(SpringLayout.NORTH, scroll, 40, SpringLayout.NORTH, add_button);
 
         Layout();
         Display_Data("All");
@@ -92,10 +76,6 @@ public class Home extends JPanel implements Page {
         Component anchor = Home.this;
         int width = Home.this.getWidth();
         int height = Home.this.getHeight();
-        layout.putConstraint(SpringLayout.WEST, search_input, (int)((51.0 / 1200.0) * width), SpringLayout.WEST, anchor);
-        layout.putConstraint(SpringLayout.EAST, search_input, -(int)((709.0 / 1200.0) * width), SpringLayout.EAST, anchor);
-        layout.putConstraint(SpringLayout.WEST, search_button, (int)((522.0 / 1200.0) * width), SpringLayout.WEST, anchor);
-        layout.putConstraint(SpringLayout.EAST, search_button, -(int)((525.0 / 1200.0) * width), SpringLayout.EAST, anchor);
         layout.putConstraint(SpringLayout.WEST, add_button, (int)((1089.0 / 1140.0) * (width - 60)), SpringLayout.WEST, anchor);
         layout.putConstraint(SpringLayout.EAST, add_button, -(int)((51.0 / 1140.0) * (width - 60)), SpringLayout.EAST, anchor);
         layout.putConstraint(SpringLayout.WEST, scroll, (int)((51.0 / 1200.0) * width), SpringLayout.WEST, anchor);

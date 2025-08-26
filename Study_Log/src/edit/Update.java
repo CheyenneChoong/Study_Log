@@ -50,4 +50,22 @@ public class Update { /*Class for updating the file.*/
             System.out.println("Error has occurred : " + e.getStackTrace());
         }
     }
+
+    public void delete(String path, String id) {
+        check.Check(path);
+        String[][] current_data = read.all(path);
+        try {
+            FileWriter file = new FileWriter(path);
+            BufferedWriter buffer = new BufferedWriter(file);
+            for (String[] row : current_data) {
+                if (!row[0].equals(id)) {
+                    buffer.write(String.join(";", row));
+                    buffer.newLine();
+                }
+            }
+            buffer.close();
+        } catch (IOException e) {
+            System.out.println("Error has occurred : " + e.getStackTrace());
+        }
+    }
 }

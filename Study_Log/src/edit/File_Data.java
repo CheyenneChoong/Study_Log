@@ -22,4 +22,9 @@ public class File_Data {
             System.out.println("Error has occurred : " + e.getStackTrace());
         }
     }
+
+    public void Delete_File(String file_path) {
+        File path = new File(file_path);
+        path.delete();
+    }
 }
