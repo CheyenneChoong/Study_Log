@@ -6,13 +6,15 @@ import java.awt.*;
 import java.awt.event.*;
 import edit.*;
 
-public class New_Module extends JPanel implements Page {
+public class New_Module extends JPanel implements Page { /*Class for the New Module Page.*/
+    /*Layout manager, connection to other pages and variables needed.*/
     private SpringLayout layout = new SpringLayout();
     private Base_Frame base_link;
     private Home home_link;
     private Module_Panel module_link;
     private int mode = 1;
 
+    /*Widgets in the frame and update object for updating files.*/
     private JLabel title;
     private JLabel module_label;
     private JLabel code_label;
@@ -88,6 +90,7 @@ public class New_Module extends JPanel implements Page {
         add(back_button);
         layout.putConstraint(SpringLayout.NORTH, back_button, 90, SpringLayout.NORTH, code_label);
 
+        /*Default display.*/
         Layout();
     }
 
@@ -126,7 +129,7 @@ public class New_Module extends JPanel implements Page {
         String module_code;
         
         switch (action) {
-            case "Add" :
+            case "Add" : /*For adding a new module.*/
                 module_name = module_input.getText().strip();
                 module_code = code_input.getText().strip();
                 if (module_name.isBlank() || module_code.isBlank()) {
@@ -138,7 +141,7 @@ public class New_Module extends JPanel implements Page {
                 home_link.Display_Data("All");
                 base_link.Display_Page("Home");
                 break;
-            case "Back" : 
+            case "Back" : /*Back to the previous page. */
                 if (mode == 1) {
                     base_link.Display_Page("Home");
                 } else if (mode == 2) {
@@ -151,7 +154,7 @@ public class New_Module extends JPanel implements Page {
                 create_button.setText("CREATE");
                 mode = 1;
                 break;
-            case "Edit" : 
+            case "Edit" : /*Editing the module.*/
                 module_name = module_input.getText().strip();
                 module_code = code_input.getText().strip();
                 if (module_name.isBlank()) {

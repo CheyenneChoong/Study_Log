@@ -6,10 +6,10 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-
 import edit.*;
 
 public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*/
+    /*Layout manager, connection to other frames and variable / arrays needed.*/
     private SpringLayout layout = new SpringLayout();
     private Base_Frame base_link;
     private Home home_link;
@@ -19,6 +19,7 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
     private String module_id;
     private String[][] all_data;
 
+    /*Widgets in the frame.*/
     private JLabel module_name;
     private JButton edit_button;
     private JButton delete_button;
@@ -107,6 +108,7 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
                 }
             }
         });
+        /*Scroll and header display.*/
         scroll = new JScrollPane(table);
         JTableHeader header = table.getTableHeader();
         header.setBackground(Color.decode("#FAD3FD"));
@@ -114,6 +116,7 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
         add(scroll);
         layout.putConstraint(SpringLayout.NORTH, scroll, 95, SpringLayout.NORTH, module_name);
 
+        /*Default display.*/
         Layout();
     }
 
@@ -130,6 +133,7 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
         }
     }
 
+    /*Method for adjusting the layout.*/
     public void Layout() {
         Component anchor = Module_Panel.this;
         int width = Module_Panel.this.getWidth();
@@ -234,6 +238,7 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
         }
     }
 
+    /* Method for displaying the selected module information.*/
     public void Display_Module(String id) {
         String[] data = file.one(id, "Study_Log/src/data/module.txt");
         module_name.setText(data[1]);
@@ -241,6 +246,7 @@ public class Module_Panel extends JPanel implements Page { /*Module Panel Page.*
         Display_Data("All");
     }
 
+    /*Method for retrieving the module code of the module being displayed.*/
     public String Module_Code() {
         return module_id;
     }

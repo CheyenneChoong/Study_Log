@@ -13,10 +13,11 @@ public class Base_Frame extends JFrame { /*Class for creating the base window fr
         setTitle(title); /*Title of the frame.*/
         setDefaultCloseOperation(EXIT_ON_CLOSE); /*Default closing method.*/
         setSize(1200, 763); /*Initialize size.*/
-        setMinimumSize(new Dimension(849, 540));
+        setMinimumSize(new Dimension(849, 540)); /*Minimum size.*/
         add(base); /*Adds the base to the JFrame.*/
         base.setLayout(layout); /*Link the layout to the panel.*/
 
+        /*Code for auto resizing and layout updates as window is resized.*/
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e){
@@ -40,6 +41,7 @@ public class Base_Frame extends JFrame { /*Class for creating the base window fr
         current.Layout();
     }
 
+    /*Method for retrieving the current page.*/
     public Component Current_Page() {
         for (Component component : base.getComponents()) {
             if (component.isVisible()) {

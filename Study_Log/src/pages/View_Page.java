@@ -7,14 +7,17 @@ import java.awt.event.*;
 import edit.*;
 
 public class View_Page extends JPanel implements Page {
+    /*Layout manager, connections to other pages and object for updating the files.*/
     private SpringLayout layout = new SpringLayout();
     private Base_Frame base_link;
     private Module_Panel module_link;
     private New_Page new_page_link;
     private Update file = new Update();
 
+    /*Variable needed for storing the id.*/
     private String note_id;
 
+    /*Widgets in the frame.*/
     private JLabel page_title;
     private JLabel type_date;
     private JButton edit_button;
@@ -115,6 +118,7 @@ public class View_Page extends JPanel implements Page {
         Layout();
     }
 
+    /*Method for establishing connections between the pages.*/
     public void Page_Connection(Object context) {
         if (context instanceof Base_Frame) {
             base_link = (Base_Frame) context;
@@ -125,6 +129,7 @@ public class View_Page extends JPanel implements Page {
         }
     }
 
+    /*Layout set up during resizing.*/
     public void Layout() {
         Component anchor = View_Page.this;
         int width = View_Page.this.getWidth();
@@ -148,6 +153,7 @@ public class View_Page extends JPanel implements Page {
         repaint();
     }
 
+    /*Method for displaying the selected note.*/
     public void Display_Note(String id) {
         Read read_file = new Read();
         note_id = id;
@@ -158,6 +164,7 @@ public class View_Page extends JPanel implements Page {
         note_area.setText(text);
     }
 
+    /*Method for retrieving the page ID.*/
     public String Page_ID() {
         return note_id;
     }

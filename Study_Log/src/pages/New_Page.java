@@ -7,15 +7,18 @@ import java.awt.event.*;
 import edit.*;
 
 public class New_Page extends JPanel implements Page {
+    /*Layout manager and connections to other pages.*/
     private SpringLayout layout = new SpringLayout();
     private Base_Frame base_link;
     private Module_Panel module_link;
     private View_Page page_link;
     
+    /*Variables and objects needed.*/
     private int mode = 1;
     private Read read_file = new Read();
     private Update update_file = new Update();
 
+    /*Widgets in the frame.*/
     private JLabel title_label;
     private JLabel date_label;
     private JLabel type_label;
@@ -25,7 +28,7 @@ public class New_Page extends JPanel implements Page {
     private JButton create_button;
     private JButton back_button; 
 
-    public New_Page() {
+    public New_Page() { /*Constructor method*/
         setSize(1200, 763);
         setBackground(Color.decode("#A4DFDC"));
         setLayout(layout);
@@ -183,6 +186,7 @@ public class New_Page extends JPanel implements Page {
         date_input.setText("");
     }
 
+    /*Method for setting up edit mode.*/
     public void Edit_Mode(String id) {
         String[] page = read_file.one(id, "Study_Log/src/data/notes.txt");
         title_input.setText(page[4]);

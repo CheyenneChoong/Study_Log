@@ -7,10 +7,11 @@ import java.awt.*;
 import java.awt.event.*;
 import edit.Read;
 
-public class Home extends JPanel implements Page {
-    private SpringLayout layout = new SpringLayout();
-    private Read file = new Read();
+public class Home extends JPanel implements Page { /*Class for the home page.*/
+    private SpringLayout layout = new SpringLayout(); /*Layout manager.*/
+    private Read file = new Read(); /*Read object for reading files.*/
 
+    /*Establishing the widgets.*/
     private JLabel title;
     private JButton add_button;
     private JTable table;
@@ -55,13 +56,16 @@ public class Home extends JPanel implements Page {
                 }
             }
         });
+        /*Header colour and design.*/
         JTableHeader header = table.getTableHeader();
         header.setBackground(Color.decode("#FAD3FD"));
         header.setFont(new Font("Tahoma", Font.BOLD, 12));
+        /*Scroll bar.*/
         scroll = new JScrollPane(table);
         add(scroll);
         layout.putConstraint(SpringLayout.NORTH, scroll, 40, SpringLayout.NORTH, add_button);
 
+        /*Default display.*/
         Layout();
         Display_Data("All");
     }
@@ -87,16 +91,9 @@ public class Home extends JPanel implements Page {
 
     /*Method for displaying all the data.*/
     public void Display_Data(String mode) {
-        String[][] data = null;
-        String[] column = null;
-        int[] widths = null;
-
-        switch (mode) {
-            case "All" :
-                data = file.all("Study_Log/src/data/module.txt");
-                column = new String[] {"Module Code", "Module Name"};
-                widths = new int[] {204, 500};
-        }
+        String[][] data = file.all("Study_Log/src/data/module.txt");
+        String[] column = {"Module Code", "Module Name"};
+        int[] widths = {204, 500};
 
         DefaultTableModel model = new DefaultTableModel(data, column) {
             @Override

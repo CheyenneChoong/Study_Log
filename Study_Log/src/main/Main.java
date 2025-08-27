@@ -14,8 +14,7 @@ public class Main { /*Main class run.*/
         Page new_page = new New_Page();
         Page view_page = new View_Page();
         
-        base.setVisible(true);
-
+        /*Establishing connections between the pages.*/
         home_page.Page_Connection(base);
         new_module_page.Page_Connection(base);
         new_module_page.Page_Connection((Home) home_page);
@@ -31,14 +30,16 @@ public class Main { /*Main class run.*/
         view_page.Page_Connection((Module_Panel)module_panel_page);
         view_page.Page_Connection((New_Page) new_page);
 
+        /*Adds the pages to the base frame.*/
         base.Add_Page(home_page, "Home");
         base.Add_Page(module_panel_page, "Module Panel");
         base.Add_Page(new_module_page, "New Module");
         base.Add_Page(new_page, "New Page");
         base.Add_Page(view_page, "View Page");
 
+        /*Set up and display the frame with the intended page.*/
         base.pack();
-
+        base.setVisible(true);
         base.Display_Page("Home");
     }
 }
